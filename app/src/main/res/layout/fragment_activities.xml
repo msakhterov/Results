@@ -19,6 +19,9 @@
         android:layout_marginBottom="@dimen/fab_margin"
         android:background="@color/colorAccent"
         android:elevation="@dimen/elevation"
-        android:src="@drawable/ic_add" />
+        android:src="@drawable/ic_add"
+        app:layout_anchorGravity="bottom|end"
+        app:layout_anchor="@id/recycler_view"
+        app:layout_behavior=".ui.common.FabBehavior"/>
 
 </FrameLayout>

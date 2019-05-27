@@ -31,7 +31,7 @@ abstract class ResultsDatabase : RoomDatabase() {
                     context.applicationContext,
                     ResultsDatabase::class.java,
                     dbName
-                ).build()
+                ).allowMainThreadQueries().build()
                 INSTANCE = instance
                 return instance
             }

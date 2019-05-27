@@ -5,6 +5,11 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity(tableName = "activities")
 data class Activity (
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    var name: String
-    )
+    @PrimaryKey(autoGenerate = true) var id: Int?,
+    var name: String,
+    var unit: String
+) {
+
+
+
+}

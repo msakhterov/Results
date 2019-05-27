@@ -1,14 +1,21 @@
 package ru.msakhterov.results.ui.adapters
 
+import android.support.v7.widget.PopupMenu
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.item_activity.view.*
 import ru.msakhterov.results.R
 import ru.msakhterov.results.data.entities.Activity
 
-class ActivitiesRVAdapter() : RecyclerView.Adapter<ActivitiesRVAdapter.ViewHolder>() {
+class ActivitiesRVAdapter(
+    val onItemClick: ((Activity) -> Unit)? = null,
+    val onEditClick: ((Activity) -> Unit)? = null,
+    val onDeleteClick: ((Activity) -> Unit)? = null
+) : RecyclerView.Adapter<ActivitiesRVAdapter.ViewHolder>() {
 
     var activities: List<Activity> = listOf()
         set(value) {
@@ -30,10 +37,32 @@ class ActivitiesRVAdapter() : RecyclerView.Adapter<ActivitiesRVAdapter.ViewHolde
 
     override fun onBindViewHolder(vh: ViewHolder, pos: Int) = vh.bind(activities[pos])
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(activity: Activity) = with(itemView) {
+            setOnClickListener{
+                onItemClick?.invoke(activity)
+            }
+
             tv_activity_title.text = activity.name
+            ib_more.setOnClickListener{
+                val popupMenu = PopupMenu(context, it)
+                popupMenu.inflate(R.menu.option_menu)
+                popupMenu.setOnMenuItemClickListener { item ->
+                    when (item.itemId) {
+                        R.id.menu_item_edit -> {
+                            onEditClick?.invoke(activity)
+                        }
+                        R.id.menu_item_delete -> {
+                            onDeleteClick?.invoke(activity)
+                        }
+                        else -> {
+                        }
+                    }
+                    false
+                }
+                popupMenu.show()
+            }
         }
     }
 }
