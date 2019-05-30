@@ -8,8 +8,4 @@ data class Activity (
     @PrimaryKey(autoGenerate = true) var id: Int?,
     var name: String,
     var unit: String
-) {
-
-
-
-}
+)

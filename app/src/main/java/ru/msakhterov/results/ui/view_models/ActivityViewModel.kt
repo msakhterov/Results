@@ -27,6 +27,8 @@ class ActivityViewModel(application: Application) : AndroidViewModel(application
 
     fun addActivity(activity: Activity) = repository.insertActivity(activity)
 
+    fun getActivity(id: Int) = repository.getActivity(id)
+
     fun updateActivity(activity: Activity) = repository.updateActivity(activity)
 
     fun deleteActivity(activity: Activity) = repository.deleteActivity(activity)

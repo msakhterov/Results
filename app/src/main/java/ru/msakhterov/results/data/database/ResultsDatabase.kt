@@ -12,7 +12,6 @@ import ru.msakhterov.results.data.entities.Result
 @Database(entities = [Activity::class, Result::class], version = 1, exportSchema = false)
 abstract class ResultsDatabase : RoomDatabase() {
 
-
     abstract val activityDao: ActivityDao
     abstract val resultDao: ResultDao
 
@@ -31,7 +30,7 @@ abstract class ResultsDatabase : RoomDatabase() {
                     context.applicationContext,
                     ResultsDatabase::class.java,
                     dbName
-                ).allowMainThreadQueries().build()
+                ).build()
                 INSTANCE = instance
                 return instance
             }

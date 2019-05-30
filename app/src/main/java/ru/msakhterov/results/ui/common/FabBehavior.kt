@@ -1,4 +1,4 @@
-package ru.msakhterov.results.ui.utils
+package ru.msakhterov.results.ui.common
 
 import android.annotation.SuppressLint
 import android.content.Context

@@ -9,10 +9,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import kotlinx.android.synthetic.main.fragment_activities.*
 import ru.msakhterov.results.R
-import ru.msakhterov.results.Utils.Constants
+import ru.msakhterov.results.utils.Constants
 import ru.msakhterov.results.data.entities.Activity
 import ru.msakhterov.results.ui.adapters.ActivitiesRVAdapter
 import ru.msakhterov.results.ui.view_models.ActivityViewModel
@@ -34,7 +33,11 @@ class ActivitiesFragment: Fragment() {
 
         recycler_view.layoutManager = LinearLayoutManager(this.activity)
         adapter = ActivitiesRVAdapter(
-
+            {},
+            {},
+            { activity ->
+                activity.id?.let{
+                    openDeleteActivityDialog(it)}}
         )
         recycler_view.adapter = adapter
 
@@ -53,6 +56,18 @@ class ActivitiesFragment: Fragment() {
         fragmentManager?.let {fragment.show(it, fragment.javaClass.name)  }
     }
 
+    fun openUpdateActivityDialog(): Unit {
+//        val fragment = CreateActivityDialogFragment()
+//        fragment.setTargetFragment(this, Constants.CREATE_REQUEST)
+//        fragmentManager?.let {fragment.show(it, fragment.javaClass.name)  }
+    }
+
+    fun openDeleteActivityDialog(activityId: Int): Unit {
+        val fragment = DeleteEntityDialogFragment.getInstance(activityId)
+        fragment.setTargetFragment(this, Constants.DELETE_REQUEST)
+        fragmentManager?.let {fragment.show(it, fragment.javaClass.name)  }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == android.app.Activity.RESULT_OK){
@@ -62,6 +77,16 @@ class ActivitiesFragment: Fragment() {
                         if (data.getIntExtra(CreateActivityDialogFragment.TAG_RESULT_CREATE, -1) == Constants.RESULT_OK){
                             createActivity(Activity(null, data.getStringExtra(CreateActivityDialogFragment.TAG_RESULT_TITLE),
                                 data.getStringExtra(CreateActivityDialogFragment.TAG_RESULT_UNITS)))
+                        }
+                    }
+                }
+                Constants.DELETE_REQUEST -> {
+                    data?.let {
+                        if (data.getIntExtra(DeleteEntityDialogFragment.TAG_RESULT_DELETE, -1) == Constants.RESULT_OK){
+                            Timber.d("ActivitiID ${data.getIntExtra(DeleteEntityDialogFragment.TAG_RESULT_ACTIVITY_ID, -1).toString()}")
+                            viewModel.getActivity(data.getIntExtra(DeleteEntityDialogFragment.TAG_RESULT_ACTIVITY_ID, -1)).observe(this, Observer { activity ->
+                                activity?.let {deleteActivity(it)}
+                            })
                         }
                     }
                 }

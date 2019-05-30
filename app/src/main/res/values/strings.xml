@@ -3,9 +3,11 @@
     <string name="item_activity_title_hint">Activity</string>
     <string name="title_hint">Наименование</string>
     <string name="units_hint">Ед. измерения</string>
+    <string name="delete_hint">Удалить запись?</string>
     <string name="menu_item_edit">Изменить</string>
     <string name="menu_item_delete">Удалить</string>
     <string name="cancel_btn">Отмена</string>
     <string name="ok_btn">Ок</string>
+    <string name="add_activity">Добавить активность</string>
 
 </resources>
